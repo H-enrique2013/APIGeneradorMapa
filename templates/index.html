@@ -5,45 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Render Generador Once Puntos</title>
     <style>
+        /* Estilos generales */
         body {
-            background-color: #f5eeee; /* Color de fondo claro */
-            color: white; /* Color de texto */
-            font-family: Arial, sans-serif; /* Fuente del texto */
-            padding: 20px; /* Espaciado interior */
+            background-color: #f5eeee;
+            color: #333;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-        
+
+        /* Título */
         .Titulo {
             background-color: #fc0808;
             color: #f5eeee;
-            text-align: center; /* Para centrar el contenido */
-            padding: 10px; /* Espaciado interior */
-            border-radius: 5px; /* Bordes redondeados */
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 800px;
         }
-        
-        .Contenido {
-            background-color: #827f7f; /* Color de fondo oscuro para el div */
-            padding: 15px; /* Espaciado interior del div */
-            margin-top: 20px; /* Margen superior */
-            border-radius: 5px; /* Bordes redondeados */
+
+        /* Contenedores fluidos en fila */
+        .contenedor-fila {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
         }
-        
+
+        /* Estilo de los contenedores individuales */
+        .container-fluid {
+            background-color: #827f7f;
+            padding: 20px;
+            border-radius: 5px;
+            flex: 1 1 45%;
+            min-width: 300px;
+            color: #f5eeee;
+        }
+
+        /* Estilo de código JSON similar a Visual Studio */
         pre {
-            white-space: pre-wrap; /* Envolver el contenido del pre */
-            color: #f5eeee; /* Color del texto dentro del pre */
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            border-radius: 5px;
+            overflow: auto;
+            white-space: pre-wrap;
         }
-        
+
+        /* Estilos de colores dentro del pre */
+        .json-key {
+            color: #9cdcfe; /* color de llaves */
+        }
+
+        .json-string {
+            color: #ce9178; /* color de valores de cadena */
+        }
+
+        .json-number {
+            color: #b5cea8; /* color de números */
+        }
+
+        /* Encabezados y texto */
         h2 {
             color: red;
+            margin-top: 0;
         }
-        
+
         p span {
             font-weight: bold;
         }
-        
+
         p span.url {
             color: red;
         }
-        
+
         p span.json-label {
             color: green;
         }
@@ -51,31 +95,71 @@
 </head>
 <body>
     <div class="Titulo">
-        <h1>API GENERADOR ONCE PUNTOS ESTÁ ACTIVA</h1>
+        <h1>API GENERADOR DE MAPAS</h1>
     </div>
-    <br>
-    <h2>Url Endpoint</h2>
-    <div class="contenido">
-        <p>
-            <span class="json-label">File HTML:</span>
-            <span class="url">https://generador-de-mapas-geopandas-zmgh.onrender.com/generateoncepuntosmap-html</span>
-        </p>
-    </div>
-    <br>
-    <h2>Parámetros para el método POST</h2>
-    <div class="Contenido">
-        <p>
-            <span class="json-label">JSON de ejemplo:</span>
-        </p>
-        <pre>
-            {
-                "Departamento": "AYACUCHO",
-                "Provincia": "HUANTA",
-                "Distrito": "IGUAIN",
-                "Sector":"VILLA FLORIDA",
-                "N_aleatorio":"7",
-            }
-        </pre>
+    
+    <div class="contenedor-fila">
+        <!-- Primer contenedor -->
+        <div class="container-fluid">
+            <h2>Url Endpoint Generar 11 puntos</h2>
+            <p>
+                <span class="json-label">File HTML:</span>
+                <span class="url">https://apigeneradormapa.onrender.com/generateoncepuntosmap-html</span>
+            </p>
+
+            <h3>Parámetros para el método POST</h3>
+            <div class="Contenido">
+                <p>
+                    <span class="json-label">JSON de ejemplo:</span>
+                </p>
+                <pre>
+                    <span class="json-key">"Departamento"</span>: <span class="json-string">"AYACUCHO"</span>,
+                    <span class="json-key">"Provincia"</span>: <span class="json-string">"HUANTA"</span>,
+                    <span class="json-key">"Distrito"</span>: <span class="json-string">"IGUAIN"</span>,
+                    <span class="json-key">"Sector"</span>: <span class="json-string">"VILLA FLORIDA"</span>,
+                    <span class="json-key">"N_aleatorio"</span>: <span class="json-number">7</span>
+                </pre>
+            </div>
+        </div>
+        
+        <!-- Segundo contenedor -->
+        <div class="container-fluid">
+            <h2>Url de los Endpoint consulta coordenadas</h2>
+            <p>
+                <span class="json-label">File HTML:</span>
+                <span class="url">https://apigeneradormapa.onrender.com/generatemap-html</span>
+            </p>
+            <p>
+                <span class="json-label">File KML:</span>
+                <span class="url">https://apigeneradormapa.onrender.com/generatemap-kml</span>
+            </p>
+
+            <h3>Parámetros para el método POST</h3>
+            <div>
+                <p>
+                    <span class="json-label">JSON de ejemplo:</span>
+                </p>
+                <pre>
+                    <span class="json-key">"Departamento"</span>: <span class="json-string">"AYACUCHO"</span>,
+                    <span class="json-key">"Provincia"</span>: <span class="json-string">"HUANTA"</span>,
+                    <span class="json-key">"Distrito"</span>: <span class="json-string">"IGUAIN"</span>,
+                    <span class="json-key">"Sector"</span>: <span class="json-string">"VILLA FLORIDA"</span>,
+                    <span class="json-key">"DiccionarioPuntos"</span>: {
+                        <span class="json-key">"Punto 1"</span>: [<span class="json-number">-74.22177636647999</span>, <span class="json-number">-12.990092382255995</span>],
+                        <span class="json-key">"Punto 2"</span>: [<span class="json-number">-74.2169500514367</span>, <span class="json-number">-12.96851318157424</span>],
+                        <span class="json-key">"Punto 3"</span>: [<span class="json-number">-74.22122551977878</span>, <span class="json-number">-12.983558205695665</span>],
+                        <span class="json-key">"Punto 4"</span>: [<span class="json-number">-74.22264087758928</span>, <span class="json-number">-12.980474113395678</span>],
+                        <span class="json-key">"Punto 5"</span>: [<span class="json-number">-74.21986777821412</span>, <span class="json-number">-12.975849290825769</span>]
+                        <span class="json-key">"Punto 6"</span>: [<span class="json-number">-74.22186511449841</span>, <span class="json-number">-12.974253850116721</span>]
+                        <span class="json-key">"Punto 7"</span>: [<span class="json-number">-74.2184392018611</span>, <span class="json-number">-12.99043919073571</span>]
+                        <span class="json-key">"Punto 8"</span>: [<span class="json-number">-74.2202314606623</span>, <span class="json-number">-12.968993352057701</span>]
+                        <span class="json-key">"Punto 9"</span>: [<span class="json-number">-74.21809553370747</span>, <span class="json-number">-12.976150035827443</span>]
+                        <span class="json-key">"Punto 10"</span>: [<span class="json-number">-74.22237603049598</span>, <span class="json-number">-12.989333931691757</span>]
+                        <span class="json-key">"Punto 11"</span>: [<span class="json-number">-74.22196046558193</span>, <span class="json-number">-12.996294387451847</span>]
+}
+                </pre>
+            </div>
+        </div>
     </div>
 </body>
 </html>
