@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Render Generador Once Puntos</title>
+    <style>
+        body {
+            background-color: #f5eeee; /* Color de fondo claro */
+            color: white; /* Color de texto */
+            font-family: Arial, sans-serif; /* Fuente del texto */
+            padding: 20px; /* Espaciado interior */
+        }
+        
+        .Titulo {
+            background-color: #fc0808;
+            color: #f5eeee;
+            text-align: center; /* Para centrar el contenido */
+            padding: 10px; /* Espaciado interior */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+        
+        .Contenido {
+            background-color: #827f7f; /* Color de fondo oscuro para el div */
+            padding: 15px; /* Espaciado interior del div */
+            margin-top: 20px; /* Margen superior */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+        
+        pre {
+            white-space: pre-wrap; /* Envolver el contenido del pre */
+            color: #f5eeee; /* Color del texto dentro del pre */
+        }
+        
+        h2 {
+            color: red;
+        }
+        
+        p span {
+            font-weight: bold;
+        }
+        
+        p span.url {
+            color: red;
+        }
+        
+        p span.json-label {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="Titulo">
+        <h1>API GENERADOR ONCE PUNTOS ESTÁ ACTIVA</h1>
+    </div>
+    <br>
+    <h2>Url Endpoint</h2>
+    <div class="contenido">
+        <p>
+            <span class="json-label">File HTML:</span>
+            <span class="url">https://generador-de-mapas-geopandas-zmgh.onrender.com/generateoncepuntosmap-html</span>
+        </p>
+    </div>
+    <br>
+    <h2>Parámetros para el método POST</h2>
+    <div class="Contenido">
+        <p>
+            <span class="json-label">JSON de ejemplo:</span>
+        </p>
+        <pre>
+            {
+                "Departamento": "AYACUCHO",
+                "Provincia": "HUANTA",
+                "Distrito": "IGUAIN",
+                "Sector":"VILLA FLORIDA",
+                "N_aleatorio":"7",
+            }
+        </pre>
+    </div>
+</body>
+</html>
