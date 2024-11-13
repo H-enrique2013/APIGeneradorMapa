@@ -22,7 +22,7 @@ def delete_file(filepath):
 def index():
     return render_template('index.html')
 #Método POST
-@app.route('/generateoncepuntosmap-html', methods=['POST'])
+@app.route('/generateoncepuntosmap', methods=['POST'])
 def generateoncepuntosmap_html():
     data = request.get_json()
     dep = data.get('Departamento')
@@ -30,29 +30,30 @@ def generateoncepuntosmap_html():
     distr = data.get('Distrito')
     sect = data.get('Sector')
     N_aleatorio = int(data.get('N_aleatorio'))
+    tipo_archivo = data.get('Tipo_Archivo')
     #Comprobando si el shape de Sector estadistico tiene geometry
     file_shape=RutaShape(dep)
     shape_sector=gpd.read_file(file_shape[0])
     shape_sector=shape_sector[(shape_sector['NOMBDEP']==dep)&(shape_sector['NOMBPROV']==prov)&(shape_sector['NOMBDIST']==distr)]
     lista_sector=shape_sector["NOM_SE"].to_numpy().tolist()
 
-    logging.info(f"Datos recibidos: dep={dep}, prov={prov}, distr={distr}, sect={sect}, N_aleatorio={N_aleatorio}")
+    logging.info(f"Datos recibidos: dep={dep}, prov={prov}, distr={distr}, sect={sect}, N_aleatorio={N_aleatorio},tipo_archivo={tipo_archivo}")
     
     try:
         if str(lista_sector[-1]) == 'nan':
-            html_filepath = ViewModel.ProcesarModel(dep, prov, distr, sect, N_aleatorio,"NULL")
+            url_filepath = ViewModel.ProcesarModel(dep, prov, distr, sect, N_aleatorio,"NULL",tipo_archivo)
         else:
-            html_filepath = ViewModel.ProcesarModel(dep, prov, distr, sect, N_aleatorio,"NO NULL")
+            url_filepath = ViewModel.ProcesarModel(dep, prov, distr, sect, N_aleatorio,"NO NULL",tipo_archivo)
 
-        logging.info(f"html_filepath generado: {html_filepath}")
+        logging.info(f"html_filepath generado: {url_filepath}")
 
-        if html_filepath is None:
+        if url_filepath is None:
             raise ValueError("El procesamiento del modelo devolvió None")
 
-        filename = os.path.basename(html_filepath)
-        directory = os.path.dirname(html_filepath)
+        filename = os.path.basename(url_filepath)
+        directory = os.path.dirname(url_filepath)
         response = send_from_directory(directory=directory, path=filename)
-        threading.Thread(target=delete_file, args=(html_filepath,)).start()
+        threading.Thread(target=delete_file, args=(url_filepath,)).start()
         return response, 200
     except Exception as e:
         logging.error(f"Tipo de error: {type(e).__name__}")

@@ -15,7 +15,7 @@ from controllers.Model import *
 # In[4]:
 
 class ViewModel():
-    def ProcesarModel(dep,prov,distr,sec_est,n_aleatorio,campo_sector):
+    def ProcesarModel(dep,prov,distr,sec_est,n_aleatorio,campo_sector,tip_archivo):
         if campo_sector=="NULL":
             (mapa,mapa1)=ImportDataSectorNULL(dep,prov,distr)
         elif campo_sector=="NO NULL":
@@ -108,9 +108,11 @@ class ViewModel():
         #Shape Once Puntos
         #once_puntos=ShapeOncePuntos(pt_bastones)
         #===============================================================================================================================
-        
-        Url=ImagenFinal.Imagenprincipal(mapa,mapa1,linea_x,linea_y, proyec_xy,puntos_aleatorios_xy,pt_bastones,
+        if tip_archivo=='html':
+            Url=ImagenFinal.ImagenprincipalHtml(mapa,mapa1,linea_x,linea_y, proyec_xy,puntos_aleatorios_xy,pt_bastones,
                                     dep,prov,distr,sec_est,n_aleatorio,imagenprincipal,xy)
+        elif tip_archivo=='kml':
+            Url=ImagenFinal.ImagenprincipalKml(mapa,mapa1,pt_bastones,dep,prov,distr)
         
         return Url
        
