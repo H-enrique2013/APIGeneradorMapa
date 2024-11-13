@@ -810,34 +810,57 @@ class ImagenFinal:
         return  filepath
     
     def ImagenprincipalKml(mapa,mapa1,pt_bastones,dep,prov,distr):
-         # Crear archivo KML
+        # Crear archivo KML
         kml = simplekml.Kml()
 
-        # Añadir puntos al KML
+        # Añadir puntos de `pt_bastones` al KML con estilo de "globito" en color rojo
         for punto, coord in pt_bastones.items():
-            kml.newpoint(name=punto, coords=[(coord[0], coord[1])])
+            pnt = kml.newpoint(name=punto, coords=[(coord[0], coord[1])])
+            pnt.style.iconstyle.color = simplekml.Color.red  # Color rojo para el punto
+            pnt.style.iconstyle.icon.href = "http://maps.google.com/mapfiles/kml/paddle/red-circle.png"  # Estilo de globito
 
-        # Añadir geometrías del shapefile al KML---Sector estadístico
+        # Añadir geometrías de `mapa` al KML (Sector Estadístico) en azul claro
         for _, row in mapa.iterrows():
             if row.geometry.geom_type == 'Polygon':
-                pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(row.geometry.exterior.coords))
+                pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Estadístico'), 
+                                    outerboundaryis=list(row.geometry.exterior.coords))
+                # Estilo del sector estadístico
+                pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.lightblue)  # Color #ADD8E6
+                pol.style.linestyle.color = simplekml.Color.darkblue  # Bordes en color azul oscuro
+                pol.style.linestyle.width = 2  # Peso del borde
             elif row.geometry.geom_type == 'MultiPolygon':
-                for poly in row.geometry:
-                    pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(poly.exterior.coords))
+                for poly in row.geometry.geoms:
+                    pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Estadístico'), 
+                                        outerboundaryis=list(poly.exterior.coords))
+                    # Estilo del sector estadístico
+                    pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.lightblue)
+                    pol.style.linestyle.color = simplekml.Color.lightskyblue
+                    pol.style.linestyle.width = 2
 
-
-        # Añadir geometrías del shapefile al KML---Sector Agrícola
+        # Añadir geometrías de `mapa1` al KML (Sector Agrícola) en verde claro con borde verde oscuro
         for _, row in mapa1.iterrows():
             if row.geometry.geom_type == 'Polygon':
-                pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(row.geometry.exterior.coords))
+                pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Agrícola'), 
+                                    outerboundaryis=list(row.geometry.exterior.coords))
+                # Estilo del sector agrícola
+                pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.hex("90EE90"))  # Color #90EE90
+                pol.style.linestyle.color = simplekml.Color.hex("006400")  # Bordes en color verde oscuro #006400
+                pol.style.linestyle.width = 2
             elif row.geometry.geom_type == 'MultiPolygon':
-                for poly in row.geometry:
-                    pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(poly.exterior.coords))
+                for poly in row.geometry.geoms:
+                    pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Agrícola'), 
+                                        outerboundaryis=list(poly.exterior.coords))
+                    # Estilo del sector agrícola
+                    pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.hex("90EE90"))
+                    pol.style.linestyle.color = simplekml.Color.hex("006400")
+                    pol.style.linestyle.width = 2
 
-        # Generar nombre de archivo HTML
+        # Generar nombre de archivo KML con fecha y hora actuales
         now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
         kml_filepath = os.path.join("static", f"{dep}_{prov}_{distr}_{now}.kml")
+        
+        # Guardar archivo KML
         kml.save(kml_filepath)
+    
         return kml_filepath
 
