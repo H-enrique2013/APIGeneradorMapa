@@ -15,6 +15,7 @@ import folium
 geod = pyproj.Geod(ellps="WGS84")
 import datetime
 import os
+import simplekml
 
 # In[1]:
 
@@ -466,7 +467,7 @@ def determinar_direccion(grados, latitud=True):
 
 # In[1]:
 class ImagenFinal:
-    def Imagenprincipal(mapa, mapa1, linea_x, linea_y, proyec_xy, puntos_aleatorios_xy, pt_bastones, dep, prov, distr,sec_est,n_aleatorio, imagenprincipal, xy):
+    def ImagenprincipalHtml(mapa, mapa1, linea_x, linea_y, proyec_xy, puntos_aleatorios_xy, pt_bastones, dep, prov, distr,sec_est,n_aleatorio, imagenprincipal, xy):
         
         def cargar_shape(ruta, dep, prov=None, distr=None):
 
@@ -805,5 +806,38 @@ class ImagenFinal:
         filepath = os.path.join("static", url_mapa)
         # Guardar el mapa como archivo HTML
         m.save(filepath)
-        
+
         return  filepath
+    
+    def ImagenprincipalKml(mapa,mapa1,pt_bastones,dep,prov,distr):
+         # Crear archivo KML
+        kml = simplekml.Kml()
+
+        # Añadir puntos al KML
+        for punto, coord in pt_bastones.items():
+            kml.newpoint(name=punto, coords=[(coord[0], coord[1])])
+
+        # Añadir geometrías del shapefile al KML---Sector estadístico
+        for _, row in mapa.iterrows():
+            if row.geometry.geom_type == 'Polygon':
+                pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(row.geometry.exterior.coords))
+            elif row.geometry.geom_type == 'MultiPolygon':
+                for poly in row.geometry:
+                    pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(poly.exterior.coords))
+
+
+        # Añadir geometrías del shapefile al KML---Sector Agrícola
+        for _, row in mapa1.iterrows():
+            if row.geometry.geom_type == 'Polygon':
+                pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(row.geometry.exterior.coords))
+            elif row.geometry.geom_type == 'MultiPolygon':
+                for poly in row.geometry:
+                    pol = kml.newpolygon(name=row['NOM_SE'], outerboundaryis=list(poly.exterior.coords))
+
+        # Generar nombre de archivo HTML
+        now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+        kml_filepath = os.path.join("static", f"{dep}_{prov}_{distr}_{now}.kml")
+        kml.save(kml_filepath)
+        return kml_filepath
+
