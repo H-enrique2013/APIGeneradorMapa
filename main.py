@@ -4,7 +4,7 @@ import os
 import time
 import threading
 import logging
-from controllers.script_mapa import GeneradorHmtl_mapa
+from controllers.script_mapa import GeneradorHmtl_mapa,Generadorkml_mapa
 from controllers.Model import RutaShape
 import geopandas as gpd
 
@@ -61,52 +61,27 @@ def generateoncepuntosmap_html():
         return jsonify({"error": f"Error al generar el mapa: {str(e)}"}), 500
     
 #Método POST
-@app.route('/generatemap-html', methods=['POST'])
+@app.route('/generatemap', methods=['POST'])
 def generatemap_html():
     data = request.get_json()
     dep = data.get('Departamento')
     prov = data.get('Provincia')
     distr = data.get('Distrito')
     sect = data.get('Sector')
+    tipo_archivo = data.get('Tipo_Archivo')
     dicPuntos = data.get('DiccionarioPuntos')
-
-    html_filepath = None
+    filepath = None
     #kml_filepath=None
     try:
-        (html_filepath,kml_filepath)=GeneradorHmtl_mapa(dep, prov, distr,sect, dicPuntos)
-        filename = os.path.basename(html_filepath)
-        directory = os.path.dirname(html_filepath)
-        response = send_from_directory(directory=directory, path=filename)
-        threading.Thread(target=delete_file, args=(html_filepath,)).start()
-        threading.Thread(target=delete_file, args=(kml_filepath,)).start()
-        return response, 200
-    except Exception as e:
-        # Imprimir el tipo de excepción y el mensaje para depuración
-        print(f"Tipo de error: {type(e).__name__}")
-        print(f"Mensaje de error: {str(e)}")
-        # Convertir la excepción en una cadena para asegurar que sea serializable a JSON
-        return jsonify({"error": f"Error al generar el mapa: {str(e)}"}), 500
-    
+        if tipo_archivo=="html":
+            filepath=GeneradorHmtl_mapa(dep, prov, distr,sect, dicPuntos)
+        elif tipo_archivo=="kml":
+            filepath=Generadorkml_mapa(dep, prov, distr,sect, dicPuntos)
 
-#Método POST
-@app.route('/generatemap-kml', methods=['POST'])
-def generatemap_kml():
-    
-    data = request.get_json()
-    dep = data.get('Departamento')
-    prov = data.get('Provincia')
-    distr = data.get('Distrito')
-    sect = data.get('Sector')
-    dicPuntos = data.get('DiccionarioPuntos')
-
-    kml_filepath=None
-    try:
-        (html_filepath,kml_filepath) =GeneradorHmtl_mapa(dep, prov, distr,sect, dicPuntos)
-        filename = os.path.basename(kml_filepath)
-        directory = os.path.dirname(kml_filepath)
+        filename = os.path.basename(filepath)
+        directory = os.path.dirname(filepath)
         response = send_from_directory(directory=directory, path=filename)
-        threading.Thread(target=delete_file, args=(kml_filepath,)).start()
-        threading.Thread(target=delete_file, args=(html_filepath,)).start()
+        threading.Thread(target=delete_file, args=(filepath,)).start()
         return response, 200
     except Exception as e:
         # Imprimir el tipo de excepción y el mensaje para depuración
