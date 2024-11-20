@@ -12,7 +12,7 @@ class ListBookWindow(QWidget,ListBookForm):
         super().__init__()
         self.setupUi(self)
         self.parent = parent
-        ListaDepa=["---","PUNO","MADRE DE DIOS","APURIMAC","AYACUCHO","HUANCAVELICA","MOQUEGUA",
+        ListaDepa=["---","PUNO","MADRE DE DIOS","APURIMAC","AYACUCHO","HUANCAVELICA","MOQUEGUA","CUSCO","LORETO","PASCO",
                    "TACNA","TUMBES"]
         self.depacomboBox.addItems(ListaDepa)
         aleatorio=[" "]
