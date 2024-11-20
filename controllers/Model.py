@@ -29,6 +29,7 @@ def BaseModel():
 def RutaShape(dep):
     
     dicdep={
+          
             "APURIMAC":['shapefiles/03_APURIMAC_SectoresEstadisticos.shp',
                         'shapefiles/03_APURIMAC_SuperficieAgricola.shp',
                         'shapefiles/Centros Poblados Apurimac.shp',
@@ -98,6 +99,33 @@ def RutaShape(dep):
                       'shapefiles/Dep Tumbes.shp',
                       'shapefiles/Rios Tumbes.shp',
                       'shapefiles/Trocha y Camino Tumbes.shp'
+                      ],
+
+            "CUSCO":['shapefiles/08_CUSCO_SectoresEstadisticos.shp',
+                      'shapefiles/08_CUSCO_SuperficieAgricola.shp',
+                      'shapefiles/Centros Poblados Cusco.shp',
+                      'shapefiles/Curvas de Nivel Cusco.shp',
+                      'shapefiles/Dep Cusco.shp',
+                      'shapefiles/Rios Cusco.shp',
+                      'shapefiles/Trocha y Camino Cusco.shp'
+                     ],
+
+             "LORETO":['shapefiles/16_LORETO_SectoresEstadisticos.shp',
+                      'shapefiles/16_LORETO_SuperficieAgricola.shp',
+                      'shapefiles/Centros Poblados Loreto.shp',
+                      'shapefiles/Curvas de Nivel Loreto.shp',
+                      'shapefiles/Dep Loreto.shp',
+                      'shapefiles/Rios Loreto.shp',
+                      'shapefiles/Trocha y Camino Loreto.shp'
+                      ],
+
+             "PASCO":['shapefiles/19_PASCO_SectoresEstadisticos.shp',
+                      'shapefiles/19_PASCO_SuperficieAgricola.shp',
+                      'shapefiles/Centros Poblados Pasco.shp',
+                      'shapefiles/Curvas de Nivel Pasco.shp',
+                      'shapefiles/Dep Pasco.shp',
+                      'shapefiles/Rios Pasco.shp',
+                      'shapefiles/Trocha y Camino Pasco.shp'
                       ]
                       
         }
