@@ -547,8 +547,8 @@ class ImagenFinal:
                 mapa,name='Sector Estadistico',
                 style_function=lambda feature: {
                     'fillColor': '#ADD8E6',  # Azul claro
-                    'weight': 2,             # Grosor del borde
-                    'fillOpacity': 0.6       # Opacidad del relleno
+                    'weight': 1,             # Grosor del borde
+                    'fillOpacity': 0.4       # Opacidad del relleno
                 }
             ).add_to(m)
 
@@ -557,8 +557,8 @@ class ImagenFinal:
                 style_function=lambda feature: {
                     'fillColor': '#90EE90',  # verde claro
                     'color': '#006400',      # verde oscuro para el borde
-                    'weight': 2,             # Grosor del borde
-                    'fillOpacity': 0.6       # Opacidad del relleno
+                    'weight': 1,             # Grosor del borde
+                    'fillOpacity': 0.4       # Opacidad del relleno
                 }
             ).add_to(m)
 
@@ -587,7 +587,7 @@ class ImagenFinal:
                     style_function=lambda feature: {
                         'fillColor': '#8B4513',  # Marron claro
                         'color': '#8B4513',      # Marron oscuro para el borde
-                        'weight': 2,             # Grosor del borde
+                        'weight': 1,             # Grosor del borde
                         'fillOpacity': 0.6       # Opacidad del relleno
                     }
                 ).add_to(m)
@@ -598,7 +598,7 @@ class ImagenFinal:
                     style_function=lambda feature: {
                         'fillColor': 'darkblue',  # blue claro
                         'color': 'darkblue',      # blue oscuro para el borde
-                        'weight': 2,             # Grosor del borde
+                        'weight': 1,             # Grosor del borde
                         'fillOpacity': 0.6       # Opacidad del relleno
                     }
                 ).add_to(m)
@@ -609,7 +609,7 @@ class ImagenFinal:
                     style_function=lambda feature: {
                         'fillColor': 'slategray', #gris
                         'color':'slategray',      #gris
-                        'weight': 2,             # Grosor del borde
+                        'weight': 1,             # Grosor del borde
                         'fillOpacity': 0.6       # Opacidad del relleno
                     }
                 ).add_to(m)
@@ -619,8 +619,8 @@ class ImagenFinal:
                 mapa,name='Sector Estadistico',
                 style_function=lambda feature: {
                     'fillColor': '#ADD8E6',  # Azul claro
-                    'weight': 2,             # Grosor del borde
-                    'fillOpacity': 0.6       # Opacidad del relleno
+                    'weight': 1,             # Grosor del borde
+                    'fillOpacity': 0.4       # Opacidad del relleno
                 }
             ).add_to(m)
 
@@ -649,7 +649,7 @@ class ImagenFinal:
                     style_function=lambda feature: {
                         'fillColor': '#8B4513',  # Marron claro
                         'color': '#8B4513',      # Marron oscuro para el borde
-                        'weight': 2,             # Grosor del borde
+                        'weight': 1,             # Grosor del borde
                         'fillOpacity': 0.6       # Opacidad del relleno
                     }
                 ).add_to(m)
@@ -660,7 +660,7 @@ class ImagenFinal:
                     style_function=lambda feature: {
                         'fillColor': 'darkblue',  # blue claro
                         'color': 'darkblue',      # blue oscuro para el borde
-                        'weight': 2,             # Grosor del borde
+                        'weight': 1,             # Grosor del borde
                         'fillOpacity': 0.6       # Opacidad del relleno
                     }
                 ).add_to(m)
@@ -671,7 +671,7 @@ class ImagenFinal:
                     style_function=lambda feature: {
                         'fillColor': 'slategray', #gris
                         'color':'slategray',      #gris
-                        'weight': 2,             # Grosor del borde
+                        'weight': 1,             # Grosor del borde
                         'fillOpacity': 0.6       # Opacidad del relleno
                     }
                 ).add_to(m)
@@ -825,17 +825,17 @@ class ImagenFinal:
                 pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Estadístico'), 
                                     outerboundaryis=list(row.geometry.exterior.coords))
                 # Estilo del sector estadístico
-                pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.lightblue)  # Color #ADD8E6
-                pol.style.linestyle.color = simplekml.Color.darkblue  # Bordes en color azul oscuro
-                pol.style.linestyle.width = 2  # Peso del borde
+                pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("ADD8E6"))  # Color #ADD8E6
+                pol.style.linestyle.color = simplekml.Color.hex("1d4ed8")  # Bordes en color azul oscuro
+                pol.style.linestyle.width = 1  # Peso del borde
             elif row.geometry.geom_type == 'MultiPolygon':
                 for poly in row.geometry.geoms:
                     pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Estadístico'), 
                                         outerboundaryis=list(poly.exterior.coords))
                     # Estilo del sector estadístico
-                    pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.lightblue)
-                    pol.style.linestyle.color = simplekml.Color.lightskyblue
-                    pol.style.linestyle.width = 2
+                    pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("ADD8E6"))
+                    pol.style.linestyle.color = simplekml.Color.hex("1d4ed8")
+                    pol.style.linestyle.width = 1
 
         # Añadir geometrías de `mapa1` al KML (Sector Agrícola) en verde claro con borde verde oscuro
         for _, row in mapa1.iterrows():
@@ -843,17 +843,17 @@ class ImagenFinal:
                 pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Agrícola'), 
                                     outerboundaryis=list(row.geometry.exterior.coords))
                 # Estilo del sector agrícola
-                pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.hex("90EE90"))  # Color #90EE90
+                pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("90EE90"))  # Color #90EE90
                 pol.style.linestyle.color = simplekml.Color.hex("006400")  # Bordes en color verde oscuro #006400
-                pol.style.linestyle.width = 2
+                pol.style.linestyle.width = 1
             elif row.geometry.geom_type == 'MultiPolygon':
                 for poly in row.geometry.geoms:
                     pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Agrícola'), 
                                         outerboundaryis=list(poly.exterior.coords))
                     # Estilo del sector agrícola
-                    pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.hex("90EE90"))
+                    pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("90EE90"))
                     pol.style.linestyle.color = simplekml.Color.hex("006400")
-                    pol.style.linestyle.width = 2
+                    pol.style.linestyle.width = 1
 
         # Generar nombre de archivo KML con fecha y hora actuales
         now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
