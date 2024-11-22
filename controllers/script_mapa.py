@@ -309,17 +309,17 @@ def Generadorkml_mapa(dep, prov, distr, sect, dicPuntos):
             pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Estadístico'), 
                                 outerboundaryis=list(row.geometry.exterior.coords))
             # Estilo del sector estadístico
-            pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.lightblue)  # Color #ADD8E6
-            pol.style.linestyle.color = simplekml.Color.darkblue  # Bordes en color azul oscuro
-            pol.style.linestyle.width = 2  # Peso del borde
+            pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("ADD8E6"))  # Color #ADD8E6
+            pol.style.linestyle.color = simplekml.Color.hex("1d4ed8")  # Bordes en color azul oscuro
+            pol.style.linestyle.width = 1  # Peso del borde
         elif row.geometry.geom_type == 'MultiPolygon':
             for poly in row.geometry.geoms:
                 pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Estadístico'), 
                                     outerboundaryis=list(poly.exterior.coords))
                 # Estilo del sector estadístico
-                pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.lightblue)
-                pol.style.linestyle.color = simplekml.Color.lightskyblue
-                pol.style.linestyle.width = 2
+                pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("ADD8E6"))
+                pol.style.linestyle.color = simplekml.Color.hex("1d4ed8")
+                pol.style.linestyle.width = 1
 
     # Añadir geometrías de `mapa1` al KML (Sector Agrícola) en verde claro con borde verde oscuro
     for _, row in mapa1.iterrows():
@@ -327,17 +327,17 @@ def Generadorkml_mapa(dep, prov, distr, sect, dicPuntos):
             pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Agrícola'), 
                                 outerboundaryis=list(row.geometry.exterior.coords))
             # Estilo del sector agrícola
-            pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.hex("90EE90"))  # Color #90EE90
+            pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("90EE90"))  # Color #90EE90
             pol.style.linestyle.color = simplekml.Color.hex("006400")  # Bordes en color verde oscuro #006400
-            pol.style.linestyle.width = 2
+            pol.style.linestyle.width = 1
         elif row.geometry.geom_type == 'MultiPolygon':
             for poly in row.geometry.geoms:
                 pol = kml.newpolygon(name=row.get('NOM_SE', 'Sector Agrícola'), 
                                     outerboundaryis=list(poly.exterior.coords))
                 # Estilo del sector agrícola
-                pol.style.polystyle.color = simplekml.Color.changealphaint(200, simplekml.Color.hex("90EE90"))
+                pol.style.polystyle.color = simplekml.Color.changealphaint(100, simplekml.Color.hex("90EE90"))
                 pol.style.linestyle.color = simplekml.Color.hex("006400")
-                pol.style.linestyle.width = 2
+                pol.style.linestyle.width = 1
 
     # Generar nombre de archivo KML con fecha y hora actuales
     now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
