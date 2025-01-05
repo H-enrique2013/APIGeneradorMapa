@@ -720,31 +720,57 @@ class ImagenFinal:
                 fill_color='red'
             ).add_to(m)
 
+        #for punto, coord in pt_bastones.items():
+        #    folium.Marker(location=[coord[1], coord[0]], popup=punto, icon=folium.Icon(color='red')).add_to(m)
+        
+        # Agregar marcadores con texto personalizado
+        
         for punto, coord in pt_bastones.items():
-            folium.Marker(location=[coord[1], coord[0]], popup=punto, icon=folium.Icon(color='red')).add_to(m)
-
+            folium.Marker(
+                location=[coord[1], coord[0]],  # [latitud, longitud]
+                popup=punto,
+                icon=folium.DivIcon(
+                    html=f'''
+                        <div style="
+                            position: relative;
+                            text-align: center;
+                            background-color: white;
+                            color: red;
+                            font-size: 8px;
+                            font-weight: bold;
+                            border-radius: 50%;
+                            width: 11px;
+                            height: 11px;
+                            line-height: 11px;">
+                            {punto}
+                        </div>
+                    '''
+                )
+            ).add_to(m)
         # Añadir control de capas
         folium.LayerControl().add_to(m)
         # Añadir leyenda
         # Añadir leyenda
         legend_html = '''
-        <div style="position: fixed; 
-        top: 420px; left: 7px; width: 300px; height: 236px; 
-        background-color: white; z-index:9999; font-size:11px;
-        border:2px solid grey; padding: 0px;">
-        <div style="background-color: red; font-size:12px;color:white;padding: 2px;">
-        <strong>LEYENDA</strong>
-        </div>
-        <i class="fa fa-map-marker fa-2x" style="color:red"></i> Puntos<br>
-        <svg width="24" height="24"><rect width="24" height="18" style="fill:#ADD8E6;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Sector Estadistico<br>
-        <svg width="24" height="24"><rect width="24" height="18" style="fill:#90EE90;stroke-width:1;stroke:rgb(0,100,0)" /></svg> Sector Agrícola<br>
-        <svg width="24" height="24"><circle cx="12" cy="12" r="6" style="fill:purple;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Centro Poblado<br>
-        <svg width="24" height="24"><rect width="24" height="18" style="fill:#8B4513;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Curvas de Nivel<br>
-        <svg width="24" height="24"><rect width="24" height="18" style="fill:darkblue;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Ríos<br>
-        <svg width="24" height="24"><rect width="24" height="18" style="fill:slategray;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Trocha y Camino<br>
-        <svg width="24" height="24"><line x1="0" y1="12" x2="24" y2="12" style="stroke:red;stroke-width:4" /></svg> Línea Principal<br>
-        <svg width="24" height="24"><line x1="0" y1="12" x2="24" y2="12" style="stroke:red;stroke-width:4;stroke-dasharray:5, 5" /></svg> Líneas de Control<br>
-        </div>
+            <div style="position: fixed; 
+            top: 420px; left: 7px; width: 300px; height: 236px; 
+            background-color: white; z-index:9999; font-size:11px;
+            border:2px solid grey; padding: 0px;">
+            <div style="background-color: red; font-size:12px;color:white;padding: 2px;">
+            <strong>LEYENDA</strong>
+            </div>
+            <div style="padding-left: 8px;"> <!-- Aplica margen interno a la izquierda -->
+                <svg width="24" height="24"><circle cx="12" cy="12" r="8" style="fill:white;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Puntos<br>
+                <svg width="24" height="24"><rect width="24" height="18" style="fill:#ADD8E6;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Sector Estadístico<br>
+                <svg width="24" height="24"><rect width="24" height="18" style="fill:#90EE90;stroke-width:1;stroke:rgb(0,100,0)" /></svg> Sector Agrícola<br>
+                <svg width="24" height="24"><circle cx="12" cy="12" r="6" style="fill:purple;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Centro Poblado<br>
+                <svg width="24" height="24"><rect width="24" height="18" style="fill:#8B4513;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Curvas de Nivel<br>
+                <svg width="24" height="24"><rect width="24" height="18" style="fill:darkblue;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Ríos<br>
+                <svg width="24" height="24"><rect width="24" height="18" style="fill:slategray;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Trocha y Camino<br>
+                <svg width="24" height="24"><line x1="0" y1="12" x2="24" y2="12" style="stroke:red;stroke-width:4" /></svg> Línea Principal<br>
+                <svg width="24" height="24"><line x1="0" y1="12" x2="24" y2="12" style="stroke:red;stroke-width:4;stroke-dasharray:5, 5" /></svg> Líneas de Control<br>
+            </div>
+            </div>
         '''
         m.get_root().html.add_child(folium.Element(legend_html))
         # Añadir cuadro "Datos del sector Estadístico"
@@ -756,11 +782,13 @@ class ImagenFinal:
         <div style="background-color: red; font-size:12px;color:white;padding: 2px;">
         <strong>DATOS DEL SECTOR ESTADÍSTICO</strong>
         </div>
-        Departamento: {dep}<br>
-        Provincia: {prov}<br>
-        Distrito: {distr}<br>
-        Sector Estadístico: {sec_est}<br>
-        N° Aleatorio: {n_aleatorio}<br>
+        <div style="padding-left: 8px;">
+            Departamento: {dep}<br>
+            Provincia: {prov}<br>
+            Distrito: {distr}<br>
+            Sector Estadístico: {sec_est}<br>
+            N° Aleatorio: {n_aleatorio}<br>
+        </div>
         </div>
         '''
         m.get_root().html.add_child(folium.Element(datos_sector))
@@ -772,7 +800,7 @@ class ImagenFinal:
         <div style="background-color: red; font-size: 12px; color: white; padding: 2px;">
         <strong>CUADRO DE COORDENADAS</strong>
         </div>
-        <table style="width: 100%;">
+        <table style="width: 100%; border-collapse: collapse; text-align: center;">
         <tr>
         <th style="text-align: center; padding-right: 10px;">Puntos</th>
         <th style="text-align: center; padding-right: 10px;">Longitud</th>

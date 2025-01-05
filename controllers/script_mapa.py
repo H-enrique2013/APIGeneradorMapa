@@ -174,13 +174,15 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     <div style="position: fixed; 
     top: 468px; left: 7px; width: 300px; height: 120px; 
     background-color: white; z-index:9999; font-size:11px;
-    border:2px solid grey; padding: 10px;">
-    <div style="background-color: red; font-size:14px;color:white;padding: 5px;">
+    border:2px solid grey; padding: 0px;">
+    <div style="background-color: red; font-size:12px;color:white;padding: 2px;">
     <strong>LEYENDA</strong>
     </div>
-    <i class="fa fa-map-marker fa-2x" style="color:red"></i> Puntos<br>
-    <svg width="24" height="24"><rect width="24" height="24" style="fill:#ADD8E6;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Sector Estadistico<br>
-    <svg width="24" height="24"><rect width="24" height="18" style="fill:#90EE90;stroke-width:1;stroke:rgb(0,100,0)" /></svg> Sector Agrícola<br>
+    <div style="padding-left: 8px;">
+        <i class="fa fa-map-marker fa-2x" style="color:red"></i> Puntos<br>
+        <svg width="24" height="24"><rect width="24" height="24" style="fill:#ADD8E6;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Sector Estadistico<br>
+        <svg width="24" height="24"><rect width="24" height="18" style="fill:#90EE90;stroke-width:1;stroke:rgb(0,100,0)" /></svg> Sector Agrícola<br>
+    </div>
     </div>
      '''
     m.get_root().html.add_child(folium.Element(legend_html))
@@ -190,14 +192,16 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     <div style="position: fixed; 
     top: 80px; left: 7px; width: 300px; height: 120px; 
     background-color: white; z-index:9999; font-size:11px;
-    border:2px solid grey; padding: 10px;">
-    <div style="background-color: red; font-size:14px;color:white;padding: 5px;">
+    border:2px solid grey; padding: 0px;">
+    <div style="background-color: red; font-size:12px;color:white;padding: 2px;">
     <strong>DATOS DEL SECTOR ESTADÍSTICO</strong>
     </div>
-    Departamento: {dep}<br>
-    Provincia: {prov}<br>
-    Distrito: {distr}<br>
-    Sector Estadístico: {sect}<br>
+    <div style="padding-left: 8px;">
+        Departamento: {dep}<br>
+        Provincia: {prov}<br>
+        Distrito: {distr}<br>
+        Sector Estadístico: {sect}<br>
+    </div>
     </div>
     '''
     m.get_root().html.add_child(folium.Element(datos_sector))
@@ -205,11 +209,11 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     # Añadir cuadro "Cuadro de Coordenadas"
     coordenadas = '''
     <div style="position: fixed; top: 200px; left: 7px; width: 300px; height: 268px; 
-    background-color: white; z-index: 9999; font-size: 11px; border: 2px solid grey; padding: 10px;">
-    <div style="background-color: red; font-size: 14px; color: white; padding: 5px;">
+    background-color: white; z-index: 9999; font-size: 11px; border: 2px solid grey; padding: 0px;">
+    <div style="background-color: red; font-size: 12px; color: white; padding: 2px;">
     <strong>CUADRO DE COORDENADAS</strong>
     </div>
-    <table style="width: 100%;">
+    <table style="width: 100%; border-collapse: collapse; text-align: center;">
     <tr>
     <th style="text-align: center; padding-right: 10px;">Puntos</th>
     <th style="text-align: center; padding-right: 10px;">Longitud</th>
