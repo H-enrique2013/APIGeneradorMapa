@@ -36,6 +36,66 @@ def determinar_direccion(grados, latitud=True):
     else:
         return 'E' if grados >= 0 else 'W'
 
+def generar_errorespuntos(dep,prov,distr,sect,dicPuntos):
+    # Obtener rutas de los shapefiles
+    shapefile_dir = RutaShape(dep)
+    shapefile_path_estadistico = os.path.join(shapefile_dir[0])
+    shapefile_path_agricola = os.path.join(shapefile_dir[1])
+
+    # Inicializar mapas como None
+    mapa = None
+    mapa1 = None
+
+    # Verificar existencia del shapefile estadístico
+    if os.path.exists(shapefile_path_estadistico):
+        shape_sector_estadistico = gpd.read_file(shapefile_path_estadistico)
+        if not shape_sector_estadistico.empty:
+            mapa = shape_sector_estadistico[
+                (shape_sector_estadistico['NOMBDEP'] == dep) &
+                (shape_sector_estadistico['NOMBPROV'] == prov) &
+                (shape_sector_estadistico['NOMBDIST'] == distr) &
+                (shape_sector_estadistico['NOM_SE'] == sect)
+            ]
+    
+    # Verificar existencia del shapefile agrícola
+    if os.path.exists(shapefile_path_agricola):
+        shape_sector_agricola = gpd.read_file(shapefile_path_agricola)
+        if not shape_sector_agricola.empty:
+            mapa1 = shape_sector_agricola[
+                (shape_sector_agricola['NOMBDEP'] == dep) &
+                (shape_sector_agricola['NOMBPROV'] == prov) &
+                (shape_sector_agricola['NOMBDIST'] == distr) &
+                (shape_sector_agricola['NOM_SE'] == sect)
+            ]
+
+    # Determinar qué geometría usar (priorizar agrícola si tiene datos, sino estadístico)
+    if mapa1 is not None and not mapa1.empty:
+        shape_union = mapa1
+        sector_nombre = "Agrícola"
+    elif mapa is not None and not mapa.empty:
+        shape_union = mapa
+        sector_nombre = "Estadístico"
+    else:
+        return {}  # Retorna JSON vacío si no hay datos en los shapefiles
+
+    # Lista para almacenar los puntos fuera del área
+    puntos_fuera = {}
+
+    
+    # Validar cada punto en el diccionario
+    for key, (lon, lat) in dicPuntos.items():
+        punto = Point(lon, lat)
+        if not shape_union.contains(punto).any():  # Verifica si está dentro de alguna geometría
+            puntos_fuera[key] = {"Longitud": lon, "Latitud": lat}
+
+    # Retornar JSON solo si hay puntos fuera, de lo contrario, retornar JSON vacío
+    return {
+        "sector": sector_nombre,
+        "puntos_erroneos": puntos_fuera
+    } if puntos_fuera else {}
+        
+
+   
 def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     shapefile_dir=RutaShape(dep)
     shapefile_path_estadistico = os.path.join(shapefile_dir[0])
