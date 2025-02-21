@@ -4,7 +4,7 @@ import os
 import time
 import threading
 import logging
-from controllers.script_mapa import GeneradorHmtl_mapa,Generadorkml_mapa
+from controllers.script_mapa import GeneradorHmtl_mapa,Generadorkml_mapa,generar_errorespuntos
 from controllers.Model import RutaShape
 import geopandas as gpd
 
@@ -72,6 +72,14 @@ def generatemap_html():
     dicPuntos = data.get('DiccionarioPuntos')
     filepath = None
     #kml_filepath=None
+    
+    errores=generar_errorespuntos(dep,prov,distr,sect,dicPuntos)
+    # Si el diccionario `errores` tiene contenido, devolver JSON con los errores
+    if errores:
+        return jsonify(
+            errores
+        ), 400
+    
     try:
         if tipo_archivo=="html":
             filepath=GeneradorHmtl_mapa(dep, prov, distr,sect, dicPuntos)
