@@ -240,11 +240,11 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
                             text-align: center;
                             background-color: white;
                             color: red;
-                            font-size: 9px;
+                            font-size: 8px;
                             font-weight: bold;
-                            border-radius: 65%;
-                            width: 15px;
-                            height: 15px;
+                            border-radius: 50%;
+                            width: 11px;
+                            height: 11px;
                             line-height: 11px;">
                             {punto}
                         </div>
