@@ -226,8 +226,31 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
             }
         ).add_to(m)
         
+    #for punto, coord in dicPuntos.items():
+    #    folium.Marker(location=[coord[1], coord[0]], popup=punto, icon=folium.Icon(color='red')).add_to(m)
+
     for punto, coord in dicPuntos.items():
-        folium.Marker(location=[coord[1], coord[0]], popup=punto, icon=folium.Icon(color='red')).add_to(m)
+            folium.Marker(
+                location=[coord[1], coord[0]],  # [latitud, longitud]
+                popup=punto,
+                icon=folium.DivIcon(
+                    html=f'''
+                        <div style="
+                            position: relative;
+                            text-align: center;
+                            background-color: white;
+                            color: red;
+                            font-size: 9px;
+                            font-weight: bold;
+                            border-radius: 65%;
+                            width: 15px;
+                            height: 15px;
+                            line-height: 11px;">
+                            {punto}
+                        </div>
+                    '''
+                )
+            ).add_to(m)
 
     # Añadir leyenda
     legend_html = '''
@@ -239,7 +262,7 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     <strong>LEYENDA</strong>
     </div>
     <div style="padding-left: 8px;">
-        <i class="fa fa-map-marker fa-2x" style="color:red"></i> Puntos<br>
+        <svg width="24" height="24"><circle cx="12" cy="12" r="8" style="fill:white;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Puntos<br>
         <svg width="24" height="24"><rect width="24" height="24" style="fill:#ADD8E6;stroke-width:1;stroke:rgb(0,0,0)" /></svg> Sector Estadistico<br>
         <svg width="24" height="24"><rect width="24" height="18" style="fill:#90EE90;stroke-width:1;stroke:rgb(0,100,0)" /></svg> Sector Agrícola<br>
     </div>
