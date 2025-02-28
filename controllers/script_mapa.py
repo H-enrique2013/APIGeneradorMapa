@@ -134,7 +134,7 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
         (shape_sector_estadistico['NOMBDIST'] == distr) &
         (shape_sector_estadistico['NOM_SE'] == sect)
     ]
-
+  
     for col in shape_sector_agricola.columns:
         if 'datetime64' in str(shape_sector_agricola[col].dtype):
             shape_sector_agricola[col] = shape_sector_agricola[col].astype(str)
@@ -145,12 +145,6 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
         (shape_sector_agricola['NOMBDIST'] == distr) &
         (shape_sector_agricola['NOM_SE'] == sect)
     ]
-
-    # Asegurarse de que el filtro no devuelve un NoneType
-    if mapa.empty:
-        raise ValueError(f"No se encontraron datos para {dep}, {prov}, {distr}")
-    if mapa1.empty:
-        raise ValueError(f"No se encontraron datos para {dep}, {prov}, {distr}")
     
 
     nom_sector=mapa["NOM_SE"].tolist()
@@ -382,12 +376,6 @@ def Generadorkml_mapa(dep, prov, distr, sect, dicPuntos):
         (shape_sector_agricola['NOM_SE'] == sect)
     ]
 
-    # Asegurarse de que el filtro no devuelve un NoneType
-    if mapa.empty:
-        raise ValueError(f"No se encontraron datos para {dep}, {prov}, {distr}")
-    if mapa1.empty:
-        raise ValueError(f"No se encontraron datos para {dep}, {prov}, {distr}")
-    
     # Crear archivo KML
     kml = simplekml.Kml()
     # Añadir puntos de `pt_bastones` al KML con estilo de "globito" en color rojo
