@@ -69,14 +69,20 @@ def generar_errorespuntos(dep,prov,distr,sect,dicPuntos):
             ]
 
     # Determinar qué geometría usar (priorizar agrícola si tiene datos, sino estadístico)
-    if mapa1 is not None and not mapa1.empty:
-        shape_union = mapa1
-        sector_nombre = "Agrícola"
-    elif mapa is not None and not mapa.empty:
+    if mapa is not None and not mapa.empty:
         shape_union = mapa
         sector_nombre = "Estadístico"
     else:
-        return {}  # Retorna JSON vacío si no hay datos en los shapefiles
+        return {}
+
+    #if mapa1 is not None and not mapa1.empty:
+    #    shape_union = mapa1
+    #    sector_nombre = "Agrícola"
+    #elif mapa is not None and not mapa.empty:
+    #    shape_union = mapa
+    #    sector_nombre = "Estadístico"
+    #else:
+    #    return {}  # Retorna JSON vacío si no hay datos en los shapefiles
 
     # Lista para almacenar los puntos fuera del área
     puntos_fuera = {}
