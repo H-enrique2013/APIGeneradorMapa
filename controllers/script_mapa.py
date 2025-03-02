@@ -44,8 +44,6 @@ def generar_errorespuntos(dep,prov,distr,sect,dicPuntos):
 
     # Inicializar mapas como None
     mapa = None
-    mapa1 = None
-
     # Verificar existencia del shapefile estadístico
     if os.path.exists(shapefile_path_estadistico):
         shape_sector_estadistico = gpd.read_file(shapefile_path_estadistico)
@@ -74,16 +72,7 @@ def generar_errorespuntos(dep,prov,distr,sect,dicPuntos):
         sector_nombre = "Estadístico"
     else:
         return {}
-
-    #if mapa1 is not None and not mapa1.empty:
-    #    shape_union = mapa1
-    #    sector_nombre = "Agrícola"
-    #elif mapa is not None and not mapa.empty:
-    #    shape_union = mapa
-    #    sector_nombre = "Estadístico"
-    #else:
-    #    return {}  # Retorna JSON vacío si no hay datos en los shapefiles
-
+    
     # Lista para almacenar los puntos fuera del área
     puntos_fuera = {}
 
@@ -94,14 +83,22 @@ def generar_errorespuntos(dep,prov,distr,sect,dicPuntos):
         if not shape_union.contains(punto).any():  # Verifica si está dentro de alguna geometría
             puntos_fuera[key] = {"Longitud": lon, "Latitud": lat}
 
-    # Retornar JSON solo si hay puntos fuera, de lo contrario, retornar JSON vacío
-    return {
+    #Si codVerificacion es 1 ,hay puntos fuera sino no hay puntos fuera
+    if puntos_fuera:
+        codVerificacion=1
+    else:
+        codVerificacion=0
+    file_path_mapa=GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos)
+    # Retornar JSON
+    fileJson={
+        "codVerificacion":codVerificacion,
         "sector": sector_nombre,
-        "puntos_erroneos": puntos_fuera
-    } if puntos_fuera else {}
-        
+        "puntos_erroneos": puntos_fuera,
+        "file_mapa_path":file_path_mapa # Ruta del archivo HTML generado
 
-   
+    }
+    return fileJson
+        
 def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     shapefile_dir=RutaShape(dep)
     shapefile_path_estadistico = os.path.join(shapefile_dir[0])
@@ -328,7 +325,8 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
 
     now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     url_mapa = f"{dep}_{prov}_{distr}_{now}.html"
-    filepath = os.path.join("static", url_mapa)
+    filepath = os.path.join("mapas_temporales", url_mapa)
+    print(filepath)
     m.save(filepath)
     return filepath
 
