@@ -18,6 +18,14 @@ def delete_file(filepath):
         except Exception as e:
             print(f"Error al eliminar el archivo: {str(e)}")
 
+def delete_file_temporales(filepath):
+    time.sleep(300)
+    if os.path.exists(filepath):
+        try:
+            os.remove(filepath)
+        except Exception as e:
+            print(f"Error al eliminar el archivo: {str(e)}")
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -68,35 +76,37 @@ def generatemap_html():
     prov = data.get('Provincia')
     distr = data.get('Distrito')
     sect = data.get('Sector')
-    tipo_archivo = data.get('Tipo_Archivo')
     dicPuntos = data.get('DiccionarioPuntos')
-    filepath = None
+    
     #kml_filepath=None
     
-    errores=generar_errorespuntos(dep,prov,distr,sect,dicPuntos)
-    # Si el diccionario `errores` tiene contenido, devolver JSON con los errores
-    if errores:
-        return jsonify(
-            errores
-        ), 400
     
     try:
-        if tipo_archivo=="html":
-            filepath=GeneradorHmtl_mapa(dep, prov, distr,sect, dicPuntos)
-        elif tipo_archivo=="kml":
-            filepath=Generadorkml_mapa(dep, prov, distr,sect, dicPuntos)
+        VerificarPuntosFuera=generar_errorespuntos(dep,prov,distr,sect,dicPuntos)
+        # Obtener el nombre del archivo
+        url_filepath=VerificarPuntosFuera["file_mapa_path"]
+        filename = os.path.basename(url_filepath)
 
-        filename = os.path.basename(filepath)
-        directory = os.path.dirname(filepath)
-        response = send_from_directory(directory=directory, path=filename)
-        threading.Thread(target=delete_file, args=(filepath,)).start()
-        return response, 200
+        # Construir la URL pública
+        url_mapa = f"{request.host_url}mapas_temporales/{filename}"
+
+        # Agregar la URL al JSON de respuesta
+        VerificarPuntosFuera["url_mapa"] = url_mapa
+        threading.Thread(target=delete_file_temporales, args=(url_filepath,)).start()
+        return jsonify(VerificarPuntosFuera),200
+
     except Exception as e:
         # Imprimir el tipo de excepción y el mensaje para depuración
         print(f"Tipo de error: {type(e).__name__}")
         print(f"Mensaje de error: {str(e)}")
         # Convertir la excepción en una cadena para asegurar que sea serializable a JSON
         return jsonify({"error": f"Error al generar el mapa: {str(e)}"}), 500
+    
+@app.route("/mapas_temporales/<filename>")
+def servir_mapa(filename):
+    """Sirve el archivo HTML generado desde mapas_temporales"""
+    return send_from_directory("mapas_temporales", filename)
+
     
 @app.route('/geopandasIcon.ico')
 def favicon():
