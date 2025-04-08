@@ -481,6 +481,7 @@ class ImagenFinal:
                 return shape[(shape['DN99'] == dep) & (shape['PN99'] == prov) & (shape['DIN99'] == distr)]
             return shape[shape['DN99'] == dep]
         
+
         # Cargando archivos shape
         ruta = RutaShape(dep)
         mapa2 = cargar_shape(ruta[2], dep, prov, distr)
@@ -570,13 +571,20 @@ class ImagenFinal:
                 for _, feature in mapa2.iterrows():
                     folium.CircleMarker(
                         location=[feature.geometry.y, feature.geometry.x],
-                        radius=5,  # Reducir el radio del círculo
+                        radius=4,  # Reducir el radio del círculo
                         color='purple',
                         fill=True,
                         fill_color='purple',
                         fill_opacity=0.6,
                         weight=1
                     ).add_to(centros_poblados)
+                    # Agregar la etiqueta siempre visible
+                    #folium.Marker(
+                    #    location=[feature.geometry.y, feature.geometry.x],
+                    #    icon=folium.DivIcon(
+                    #        html=f'<div style="font-size: 10px; color: black; white-space: nowrap;">{feature["DESCRIPCIO"]}</div>'
+                    #    )
+                    #).add_to(centros_poblados)
 
                 # Añadir el FeatureGroup al mapa
                 centros_poblados.add_to(m)
