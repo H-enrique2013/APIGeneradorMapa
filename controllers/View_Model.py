@@ -23,7 +23,6 @@ class ViewModel():
                 (mapa,mapa1)=ImportData(dep,prov,distr,sec_est)
                 
             #lista_no_dep=["TUMBES","LAMBAYEQUE","PIURA","CAJAMARCA","AREQUIPA","AMAZONAS"]
-            
             nom_sector=mapa["NOM_SE"].tolist()
             nom_agricola=mapa1["NOM_SE"].tolist()
             mapageometry_agricola=mapa1["geometry"].tolist()
