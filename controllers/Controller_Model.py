@@ -25,13 +25,11 @@ def ImportData(dep,prov,distr,sec_est):
     lista_shape=RutaShape(dep)
 
     path_map=os.path.join(lista_shape[0])
-    
     if not os.path.exists(path_map):
         print("Contenido de la carpeta 'shape':", os.listdir('shape'))
         raise ValueError(f"No se encontraron archivos en la ruta '{path_map}'")
     
     path_map1=os.path.join(lista_shape[1])
-
     if not os.path.exists(path_map1):
         raise ValueError(f"No se encontraron archivos en la ruta '{path_map1}'")
 
@@ -39,7 +37,7 @@ def ImportData(dep,prov,distr,sec_est):
     shape_agricola=gpd.read_file(path_map1)
     map1=shape_sector[(shape_sector['NOMBDEP']==dep)&(shape_sector['NOMBPROV']==prov)&(shape_sector['NOMBDIST']==distr)
     & (shape_sector['NOM_SE']==sec_est)]
-    map2=shape_agricola[(shape_sector['NOMBDEP']==dep)&(shape_agricola['NOMBPROV']==prov)&(shape_agricola['NOMBDIST']==distr)
+    map2=shape_agricola[(shape_agricola['NOMBDEP']==dep)&(shape_agricola['NOMBPROV']==prov)&(shape_agricola['NOMBDIST']==distr)
     & (shape_agricola['NOM_SE']==sec_est)]
     return map1,map2
 def ImportDataSectorNULL(dep,prov,distr):
