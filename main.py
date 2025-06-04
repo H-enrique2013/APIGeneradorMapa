@@ -4,7 +4,7 @@ import os
 import time
 import threading
 import logging
-from controllers.script_mapa import GeneradorHmtl_mapa,Generadorkml_mapa,generar_errorespuntos
+from controllers.script_mapa import generar_errorespuntos
 from controllers.Model import RutaShape
 import geopandas as gpd
 

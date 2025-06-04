@@ -171,7 +171,7 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     map_center = [gdf_puntos.geometry.y.mean(), gdf_puntos.geometry.x.mean()]
     m = folium.Map(location=map_center, zoom_start=14)
 
-    mapbox_api_key = 'pk.eyJ1IjoiZW5yaXF1ZXNhbmRvdmFsIiwiYSI6ImNseWhxZmU2NTA3NjkybW9mbWxzZXpmdGQifQ.c1uvRvMYZyEaLaCqYioUmw'
+    mapbox_api_key = 'pk.eyJ1IjoiYW5kcmVvYnphMTAiLCJhIjoiY21iaTVsYm11MDJhNTJrcTYzcjZ4MDgwbiJ9.99bZaqAYlbgzFKIScT5_mw'
     # Añadir capas de mapas utilizando Mapbox
     folium.TileLayer(
         tiles=f'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{{z}}/{{x}}/{{y}}@2x?access_token={mapbox_api_key}',
