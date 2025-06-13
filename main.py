@@ -19,7 +19,7 @@ def delete_file(filepath):
             print(f"Error al eliminar el archivo: {str(e)}")
 
 def delete_file_temporales(filepath):
-    time.sleep(300)
+    time.sleep(150)
     if os.path.exists(filepath):
         try:
             os.remove(filepath)
