@@ -16,7 +16,7 @@ geod = pyproj.Geod(ellps="WGS84")
 import datetime
 import os
 import simplekml
-
+from pathlib import Path
 # In[1]:
 
 
@@ -468,11 +468,22 @@ class ImagenFinal:
         
         def cargar_shape(ruta, dep, prov=None, distr=None):
 
-            path_maps=os.path.join(ruta)
-            if not os.path.exists(path_maps):
+            BASE_DIR = Path(__file__).resolve().parent.parent
+
+            # Normaliza la ruta
+            if not ruta:
+                raise ValueError("La ruta del shapefile está vacía o no se proporcionó")
+
+            path_maps = (BASE_DIR / ruta).resolve()
+            print("🗺️ Intentando cargar:", path_maps)
+
+            if not path_maps.exists():
                 raise ValueError(f"No se encontraron archivos en la ruta '{path_maps}'")
 
-            shape = gpd.read_file(path_maps)
+            try:
+                shape = gpd.read_file(path_maps)
+            except Exception as e:
+                raise ValueError(f"Error leyendo shapefile: {e}")
 
             if prov and distr:
                 return shape[(shape['DN99'] == dep) & (shape['PN99'] == prov) & (shape['DIN99'] == distr)]
