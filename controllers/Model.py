@@ -31,8 +31,6 @@ def RutaShape(dep, prov, dist):
     ruta_base_env = os.getenv("RUTA_BASE", str(BASE_DIR.parent / "shapefiles"))
     ruta_base = Path(ruta_base_env) / dep
 
-    print(f"📁 Buscando shapefiles en: {ruta_base}")
-
     if not ruta_base.exists():
         raise ValueError(f"No existe la carpeta de shapefiles: {ruta_base}")
 
@@ -44,9 +42,7 @@ def RutaShape(dep, prov, dist):
             for file in files:
                 if patron.lower() in file.lower() and file.lower().endswith(".shp"):
                     full_path = os.path.join(root, file)
-                    print(f"✅ Encontrado: {full_path}")
                     return full_path
-        print(f"⚠️ No se encontró ningún archivo para patrón: {patron}")
         return ""
 
     # --- Helper: ruta relativa limpia ---
@@ -78,7 +74,6 @@ def RutaShape(dep, prov, dist):
                         ]
                         if not filtro.empty:
                             path_agricola = full_path
-                            print(f"✅ Archivo agrícola filtrado: {path_agricola}")
                             break
                 except Exception as e:
                     print(f"⚠️ Error leyendo {file}: {e}")
@@ -106,7 +101,6 @@ def RutaShape(dep, prov, dist):
     archivo_trochascamino = buscar_archivo("Trocha y Camino")
     lista_encontrados.append(rel(archivo_trochascamino))
 
-    print("📦 Archivos encontrados:", lista_encontrados)
     return lista_encontrados
 
 

@@ -475,7 +475,7 @@ class ImagenFinal:
                 raise ValueError("La ruta del shapefile está vacía o no se proporcionó")
 
             path_maps = (BASE_DIR / ruta).resolve()
-            print("🗺️ Intentando cargar:", path_maps)
+            
 
             if not path_maps.exists():
                 raise ValueError(f"No se encontraron archivos en la ruta '{path_maps}'")
