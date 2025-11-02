@@ -1,0 +1,63 @@
+# ==========================================
+# GITIGNORE PARA PROYECTO FLASK / GEOPANDAS
+# ==========================================
+
+# 🧠 Entornos virtuales locales (NO subir)
+env/
+venv/
+env_creadormap/
+.env
+.venv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 🧹 Archivos de logs y temporales
+*.log
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
+
+# 🧰 Configuración del sistema o IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.code-workspace
+
+# ⚙️ Archivos de compilación / cache
+dist/
+build/
+*.egg-info/
+
+# 🚫 Datos pesados o temporales que no queremos subir
+*.zip
+*.rar
+*.7z
+
+# ==========================================
+# 👇 Excepciones: PERMITIR SHAPEFILES
+# ==========================================
+
+!*.shp
+!*.dbf
+!*.shx
+!*.prj
+!*.xml
+!*.gpkg
+!*.geojson
+!*.fgb
+
+# ==========================================
+# 📊 Permitir tus CSV de tablas base
+# ==========================================
+!Tabla_*.csv
+# Ignorar cachés de Python
+__pycache__/
+*.py[cod]
