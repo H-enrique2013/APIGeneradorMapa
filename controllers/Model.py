@@ -119,6 +119,24 @@ def RutaShape(dep):
                       'shapefiles/Trocha y Camino Loreto.shp'
                       ],
 
+             "ICA":['shapefiles/11_ICA_SectoresEstadisticos.shp',
+                        'shapefiles/11_ICA_SuperficieAgricola.shp',
+                        'shapefiles/Centros Poblados Ica.shp',
+                        'shapefiles/Curvas de Nivel Ica.shp',
+                        'shapefiles/Dep Ica.shp',
+                        'shapefiles/Rios Ica.shp',
+                        'shapefiles/Trocha y Camino Ica.shp'
+                        ],
+
+             "CAJAMARCA":['shapefiles/06_CAJAMARCA_SectoresEstadisticos.shp',
+                      'shapefiles/06_CAJAMARCA_SuperficieAgricola.shp',
+                      'shapefiles/Centros Poblados Cajamarca.shp',
+                      'shapefiles/Curvas de Nivel Cajamarca.shp',
+                      'shapefiles/Dep Cajamarca.shp',
+                      'shapefiles/Rios Cajamarca.shp',
+                      'shapefiles/Trocha y Camino Cajamarca.shp'
+                      ],
+
              "PASCO":['shapefiles/19_PASCO_SectoresEstadisticos.shp',
                       'shapefiles/19_PASCO_SuperficieAgricola.shp',
                       'shapefiles/Centros Poblados Pasco.shp',
