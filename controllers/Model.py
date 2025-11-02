@@ -25,8 +25,11 @@ def BaseModel():
 
 def RutaShape(dep, prov, dist):
     BASE_DIR = Path(__file__).resolve().parent
-    dep = dep.upper()  # 🔧 forzar mayúsculas para compatibilidad Linux
-    ruta_base = BASE_DIR.parent / "shapefiles" / dep
+    dep = dep.upper()
+
+    # ✅ Ruta base configurable por variable de entorno
+    ruta_base_env = os.getenv("RUTA_BASE", str(BASE_DIR.parent / "shapefiles"))
+    ruta_base = Path(ruta_base_env) / dep
 
     if not ruta_base.exists():
         raise ValueError(f"No existe la carpeta de shapefiles: {ruta_base}")
