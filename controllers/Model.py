@@ -24,73 +24,89 @@ def BaseModel():
 
 
 def RutaShape(dep, prov, dist):
-    BASE_DIR = Path(__file__).resolve().parent
     dep = dep.upper()
+    BASE_DIR = Path(__file__).resolve().parent
 
     # ✅ Ruta base configurable por variable de entorno
     ruta_base_env = os.getenv("RUTA_BASE", str(BASE_DIR.parent / "shapefiles"))
     ruta_base = Path(ruta_base_env) / dep
+
+    print(f"📁 Buscando shapefiles en: {ruta_base}")
 
     if not ruta_base.exists():
         raise ValueError(f"No existe la carpeta de shapefiles: {ruta_base}")
 
     lista_encontrados = []
 
-    # Helper: ruta relativa limpia
+    # --- Helper: búsqueda insensible a mayúsculas ---
+    def buscar_archivo(patron):
+        for root, _, files in os.walk(ruta_base):
+            for file in files:
+                if patron.lower() in file.lower() and file.lower().endswith(".shp"):
+                    full_path = os.path.join(root, file)
+                    print(f"✅ Encontrado: {full_path}")
+                    return full_path
+        print(f"⚠️ No se encontró ningún archivo para patrón: {patron}")
+        return ""
+
+    # --- Helper: ruta relativa limpia ---
     def rel(path):
         if not path:
-                return ""
+            return ""
         try:
-                # intenta hacer la ruta relativa respecto al proyecto raíz
-                return str(path.relative_to(BASE_DIR.parent)).replace("\\", "/")
+            return str(Path(path).relative_to(BASE_DIR.parent)).replace("\\", "/")
         except ValueError:
-                # si no se puede, devuelve la ruta absoluta como fallback
-                return str(path).replace("\\", "/")
-
+            return str(path).replace("\\", "/")
 
     # --- 1. SECTORES ESTADÍSTICOS ---
-    archivo_estadistico = next(ruta_base.rglob(f"*{dep}*_SectoresEstadisticos.shp"), None)
+    archivo_estadistico = buscar_archivo(f"{dep}_SectoresEstadisticos")
     lista_encontrados.append(rel(archivo_estadistico))
 
     # --- 2. SUPERFICIE AGRÍCOLA ---
-    archivos_agricolas = list(ruta_base.rglob(f"*{dep}*_SuperficieAgricola.shp"))
     path_agricola = ""
-    for archivo in archivos_agricolas:
-        try:
-            gdf = gpd.read_file(archivo)
-            if {"NOMBDEP", "NOMBPROV", "NOMBDIST"}.issubset(gdf.columns):
-                filtro = gdf[
-                    (gdf["NOMBDEP"].str.upper() == dep.upper()) &
-                    (gdf["NOMBPROV"].str.upper() == prov.upper()) &
-                    (gdf["NOMBDIST"].str.upper() == dist.upper())
-                ]
-                if not filtro.empty:
-                    path_agricola = rel(archivo)
-                    break
-        except Exception as e:
-            print(f"⚠️ Error leyendo {archivo.name}: {e}")
-    lista_encontrados.append(path_agricola)
+    for root, _, files in os.walk(ruta_base):
+        for file in files:
+            if "SuperficieAgricola".lower() in file.lower() and file.lower().endswith(".shp"):
+                full_path = os.path.join(root, file)
+                try:
+                    gdf = gpd.read_file(full_path)
+                    if {"NOMBDEP", "NOMBPROV", "NOMBDIST"}.issubset(gdf.columns):
+                        filtro = gdf[
+                            (gdf["NOMBDEP"].str.upper() == dep.upper()) &
+                            (gdf["NOMBPROV"].str.upper() == prov.upper()) &
+                            (gdf["NOMBDIST"].str.upper() == dist.upper())
+                        ]
+                        if not filtro.empty:
+                            path_agricola = full_path
+                            print(f"✅ Archivo agrícola filtrado: {path_agricola}")
+                            break
+                except Exception as e:
+                    print(f"⚠️ Error leyendo {file}: {e}")
+        if path_agricola:
+            break
+    lista_encontrados.append(rel(path_agricola))
 
     # --- 3. CENTROS POBLADOS ---
-    archivo_centros = next(ruta_base.rglob(f"*Centros Poblados*{dep}*.shp"), None)
+    archivo_centros = buscar_archivo("Centros Poblados")
     lista_encontrados.append(rel(archivo_centros))
 
     # --- 4. CURVAS DE NIVEL ---
-    archivo_curvas = next(ruta_base.rglob(f"*Curvas de Nivel*{dep}*.shp"), None)
+    archivo_curvas = buscar_archivo("Curvas de Nivel")
     lista_encontrados.append(rel(archivo_curvas))
 
     # --- 5. DEPARTAMENTO ---
-    archivo_departamento = next(ruta_base.rglob(f"*Dep*{dep}*.shp"), None)
+    archivo_departamento = buscar_archivo("Dep")
     lista_encontrados.append(rel(archivo_departamento))
 
     # --- 6. RÍOS ---
-    archivo_rios = next(ruta_base.rglob(f"*Rios*{dep}*.shp"), None)
+    archivo_rios = buscar_archivo("Rios")
     lista_encontrados.append(rel(archivo_rios))
 
     # --- 7. TROCHAS Y CAMINOS ---
-    archivo_trochascamino = next(ruta_base.rglob(f"*Trocha*Camino*{dep}*.shp"), None)
+    archivo_trochascamino = buscar_archivo("Trocha y Camino")
     lista_encontrados.append(rel(archivo_trochascamino))
 
+    print("📦 Archivos encontrados:", lista_encontrados)
     return lista_encontrados
 
 
@@ -99,4 +115,3 @@ def RutaShape(dep, prov, dist):
 if __name__ == "__main__":
     resultados = RutaShape(dep="APURIMAC", prov="CHINCHEROS", dist="URANMARCA")
     print(resultados)
-
