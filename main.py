@@ -11,7 +11,7 @@ import geopandas as gpd
 app = Flask(__name__, template_folder='templates')
 
 def delete_file(filepath):
-    time.sleep(5)
+    time.sleep(6)
     if os.path.exists(filepath):
         try:
             os.remove(filepath)
