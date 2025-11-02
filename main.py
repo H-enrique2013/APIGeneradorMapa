@@ -40,7 +40,7 @@ def generateoncepuntosmap_html():
     N_aleatorio = int(data.get('N_aleatorio'))
     tipo_archivo = data.get('Tipo_Archivo')
     #Comprobando si el shape de Sector estadistico tiene geometry
-    file_shape=RutaShape(dep)
+    file_shape=RutaShape(dep,prov,distr)
     shape_sector=gpd.read_file(file_shape[0])
     shape_sector=shape_sector[(shape_sector['NOMBDEP']==dep)&(shape_sector['NOMBPROV']==prov)&(shape_sector['NOMBDIST']==distr)]
     lista_sector=shape_sector["NOM_SE"].to_numpy().tolist()

@@ -38,7 +38,7 @@ def determinar_direccion(grados, latitud=True):
 
 def generar_errorespuntos(dep,prov,distr,sect,dicPuntos):
     # Obtener rutas de los shapefiles
-    shapefile_dir = RutaShape(dep)
+    shapefile_dir = RutaShape(dep,prov,distr)
     shapefile_path_estadistico = os.path.join(shapefile_dir[0])
     shapefile_path_agricola = os.path.join(shapefile_dir[1])
 
@@ -100,7 +100,7 @@ def generar_errorespuntos(dep,prov,distr,sect,dicPuntos):
     return fileJson
         
 def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
-    shapefile_dir=RutaShape(dep)
+    shapefile_dir=RutaShape(dep,prov,distr)
     shapefile_path_estadistico = os.path.join(shapefile_dir[0])
     shapefile_path_agricola = os.path.join(shapefile_dir[1])
     if not os.path.exists(shapefile_path_estadistico):
@@ -331,7 +331,7 @@ def GeneradorHmtl_mapa(dep, prov, distr, sect, dicPuntos):
     return filepath
 
 def Generadorkml_mapa(dep, prov, distr, sect, dicPuntos):
-    shapefile_dir=RutaShape(dep)
+    shapefile_dir=RutaShape(dep,prov,distr)
     shapefile_path_estadistico = os.path.join(shapefile_dir[0])
     shapefile_path_agricola = os.path.join(shapefile_dir[1])
     if not os.path.exists(shapefile_path_estadistico):
@@ -425,3 +425,5 @@ def Generadorkml_mapa(dep, prov, distr, sect, dicPuntos):
     # Guardar archivo KML
     kml.save(kml_filepath)
     return kml_filepath
+
+

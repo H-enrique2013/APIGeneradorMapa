@@ -22,8 +22,7 @@ import simplekml
 
 #Función importar Mapas(Sector Estadístico y Agrícola)
 def ImportData(dep,prov,distr,sec_est):
-    lista_shape=RutaShape(dep)
-
+    lista_shape=RutaShape(dep,prov,distr)
     path_map=os.path.join(lista_shape[0])
     if not os.path.exists(path_map):
         print("Contenido de la carpeta 'shape':", os.listdir('shape'))
@@ -41,7 +40,7 @@ def ImportData(dep,prov,distr,sec_est):
     & (shape_agricola['NOM_SE']==sec_est)]
     return map1,map2
 def ImportDataSectorNULL(dep,prov,distr):
-    lista_shape=RutaShape(dep)
+    lista_shape=RutaShape(dep,prov,distr)
     path_map=os.path.join(lista_shape[0])
     
     if not os.path.exists(path_map):
@@ -481,7 +480,7 @@ class ImagenFinal:
         
 
         # Cargando archivos shape
-        ruta = RutaShape(dep)
+        ruta = RutaShape(dep,prov,distr)
         mapa2 = cargar_shape(ruta[2], dep, prov, distr)
         mapa3 = cargar_shape(ruta[3], dep, prov, distr)
         mapa5 = cargar_shape(ruta[5], dep, prov, distr)

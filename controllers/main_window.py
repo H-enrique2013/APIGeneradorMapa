@@ -38,7 +38,7 @@ class ListBookWindow(QWidget,ListBookForm):
         TextoSect = self.sectorcombobox.currentText()
         TextoAlea = self.aleatoriocombobox.currentText()
         NumAleatorio = int(TextoAlea)
-        lista_shape=RutaShape(TextoDepa)
+        lista_shape=RutaShape(TextoDepa,TextoProv,TextoDist)
         shape_sector=gpd.read_file(lista_shape[0])
         shape_sector=shape_sector[(shape_sector['NOMBPROV']==TextoProv)&(shape_sector['NOMBDEP']==TextoDepa)&(shape_sector['NOMBDIST']==TextoDist)]
         lista_sector=shape_sector["NOM_SE"].to_numpy().tolist()
@@ -64,7 +64,7 @@ class ListBookWindow(QWidget,ListBookForm):
     def populate_comboboxProvincia(self,txt):
         self.provinciacombobox.clear()
         self.provinciacombobox.addItems(" ")
-        lista_shape=RutaShape(txt)
+        lista_shape=RutaShape(txt,prov=None,dist=None)
         shape_sector=gpd.read_file(lista_shape[0])
         lista_provincia=shape_sector['NOMBPROV'].to_numpy().tolist()
         lista_provincia=list(set(lista_provincia))
@@ -73,7 +73,7 @@ class ListBookWindow(QWidget,ListBookForm):
     def populate_comboboxDistrito(self,depa,provincia):
         self.distritocombobox.clear()
         self.distritocombobox.addItems(" ")
-        lista_shape=RutaShape(depa)
+        lista_shape=RutaShape(depa,provincia,distrito=None)
         shape_sector=gpd.read_file(lista_shape[0])
         shape_dist=shape_sector[(shape_sector['NOMBPROV']==provincia) &(shape_sector['NOMBDEP']==depa) ]
         lista_distrito=shape_dist["NOMBDIST"].to_numpy().tolist()
@@ -83,7 +83,7 @@ class ListBookWindow(QWidget,ListBookForm):
     def populate_comboboxSector(self,depa,provincia,distrito):
         self.sectorcombobox.clear()
         self.sectorcombobox.addItems(" ")
-        lista_shape=RutaShape(depa)
+        lista_shape=RutaShape(depa,provincia,distrito)
         shape_sector=gpd.read_file(lista_shape[0])
         #shape_agricola=gpd.read_file(lista_shape[1])
         shape_sector_est=shape_sector[(shape_sector['NOMBPROV']==provincia)&(shape_sector['NOMBDEP']==depa)&(shape_sector['NOMBDIST']==distrito)]
